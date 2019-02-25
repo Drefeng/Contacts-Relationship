@@ -1,7 +1,11 @@
 package no.experis.academy.Model;
 
 public class Address {
-    public String address;
+    private String address;
+
+    public Address(String currentAddress){
+        this.address = currentAddress;
+    }
 
     public String getAddress() {
         return address;
@@ -11,7 +15,5 @@ public class Address {
         this.address = address;
     }
 
-    public Address(String currentAddress){
-        this.address = currentAddress;
-    }
+
 }
