@@ -41,7 +41,7 @@ public class CreateTable {
                     + "home INT ,"
                     + "mobile INT,"
                     + "work INT,"
-                    + "phoneref INT REFERENCES person (_id));";
+                    + "phoneref INT REFERENCES person (id));";
 
             stmt.executeUpdate(sql);
             stmt.close();
@@ -60,10 +60,10 @@ public class CreateTable {
             connect = PostgresConnection.connect();
             stmt = connect.createStatement();
             String sql = "CREATE TABLE email"
-                    + "(_id SERIAL PRIMARY KEY NOT NULL,"
+                    + "(id SERIAL PRIMARY KEY NOT NULL,"
                     + "personal VARCHAR(100),"
                     + "work VARCHAR(100),"
-                    +"emailref INT REFERENCES person (_id));";
+                    + "emailref INT REFERENCES person (id));";
 
             stmt.executeUpdate(sql);
             stmt.close();
@@ -73,6 +73,28 @@ public class CreateTable {
             System.exit(0);
         }
         System.out.println("Email table created successfully");
+    }
+
+    public static void createAddressTable(){
+        Connection connect = null;
+        Statement stmt = null;
+        try{
+            connect = PostgresConnection.connect();
+            stmt = connect.createStatement();
+            String sql = "CREATE TABLE address"
+                    + "(id SERIAL PRIMARY KEY NOT NULL,"
+                    + "current VARCHAR(100),"
+                    + "work VARCHAR(100),"
+                    + "address_ref INT REFERENCES person (id));";
+
+            stmt.executeUpdate(sql);
+            stmt.close();
+            connect.close();
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            System.exit(0);
+        }
+        System.out.println("Address table created successfully");
     }
 
     public static void createRelationShip(){
@@ -101,11 +123,11 @@ public class CreateTable {
         try{
             connect = PostgresConnection.connect();
             stmt = connect.createStatement();
-            String sql = "CREATE TABLE relationship"
+            String sql = "CREATE TABLE family"
                     + "(id SERIAL PRIMARY KEY NOT NULL,"
-                    + "person_id INT REFERENCES person (_id) NOT NULL,"+
-                    " relative_id REFERENCES person (id) NOT NULL,"
-                    +" relationId INT REFERENCES relationship (id) );";
+                    + "person_id INT REFERENCES person (id) NOT NULL,"+
+                    " relative_id INT REFERENCES person (id) NOT NULL,"
+                    + "relation_id INT REFERENCES relationship (id));";
 
             stmt.executeUpdate(sql);
             stmt.close();
@@ -116,6 +138,5 @@ public class CreateTable {
         }
         System.out.println("Family table created successfully");
     }
-
 
 }
