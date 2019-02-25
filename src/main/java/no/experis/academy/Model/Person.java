@@ -1,15 +1,15 @@
 package no.experis.academy.Model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Person {
     private int id;
     private String firstName;
     private String lastName;
-    private Date  birthday;
+    private LocalDate birthday;
 
 
-    public Person(int id, String firstName, String lastName, Date birthday) {
+    public Person(int id, String firstName, String lastName, LocalDate birthday) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -40,11 +40,11 @@ public class Person {
         this.lastName = lastName;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
