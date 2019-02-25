@@ -1,5 +1,6 @@
 package no.experis.academy.SqlHelper;
 
+import no.experis.academy.Model.CreateTable;
 import no.experis.academy.Model.Person;
 
 import java.sql.*;
