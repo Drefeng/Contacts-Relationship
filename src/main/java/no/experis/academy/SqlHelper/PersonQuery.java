@@ -30,13 +30,19 @@ public class PersonQuery {
 
                     System.out.printf("%s %s %s", firstName, lastName, date);
                 }
+
+                PostgresConnection.disconnect();
+
             } else {
                 System.out.println("table doesn't exists");
+
+                PostgresConnection.disconnect();
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
 
         return null;
     }
