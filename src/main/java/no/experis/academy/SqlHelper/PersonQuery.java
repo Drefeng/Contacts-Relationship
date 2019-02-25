@@ -2,10 +2,7 @@ package no.experis.academy.SqlHelper;
 
 import no.experis.academy.Model.Person;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class PersonQuery {
     private PersonQuery() {
@@ -21,6 +18,17 @@ public class PersonQuery {
 
             if (rs.next()) {
                 System.out.println("table exists");
+                conn.setAutoCommit(false);
+
+                Statement stmt = conn.createStatement();
+                ResultSet resultSet = stmt.executeQuery("SELECT * FROM person WHERE _id=" + id);
+                while (resultSet.next()) {
+                    String firstName = resultSet.getString("firstname");
+                    String lastName = resultSet.getString("lastname");
+                    Date date = resultSet.getDate("birthday");
+
+                    System.out.printf("%s %s %s", firstName, lastName, date);
+                }
             } else {
                 System.out.println("table doesn't exists");
             }
