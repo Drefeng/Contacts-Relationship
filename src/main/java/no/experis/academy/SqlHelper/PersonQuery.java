@@ -6,6 +6,7 @@ import no.experis.academy.Model.Person;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class PersonQuery implements CRUD<Person> {
@@ -34,7 +35,7 @@ public class PersonQuery implements CRUD<Person> {
                 firstName = rs.getString("firstname");
                 lastName = rs.getString("lastname");
                 birthday = LocalDate.parse(rs.getDate("birthday").toString());
-                persons.add(new Person(firstName, lastName, birthday));
+                persons.add(new Person(id, firstName, lastName, birthday));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -100,6 +101,14 @@ public class PersonQuery implements CRUD<Person> {
         String insertQuery = "INSERT INTO person(firstname, lastname, birthday) VALUES(?, ?, ?);";
 
         try (Connection conn = PostgresConnection.connect()) {
+
+            for (Person p : getByName(person.getFirstName() + " " + person.getLastName())) {
+                if (person.equals(p)) {
+                    System.out.println("Person already exist.");
+                    return;
+                }
+            }
+
             PreparedStatement pstmt = conn.prepareStatement(insertQuery);
             pstmt.setString(1, person.getFirstName());
             pstmt.setString(2, person.getLastName());

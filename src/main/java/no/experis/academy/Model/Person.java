@@ -1,6 +1,7 @@
 package no.experis.academy.Model;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Person {
     private int id;
@@ -57,5 +58,15 @@ public class Person {
     @Override
     public String toString() {
         return getId() + " " + getFirstName() + " " + getLastName() + " " + getBirthday();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(firstName, person.firstName) &&
+                Objects.equals(lastName, person.lastName) &&
+                Objects.equals(birthday, person.birthday);
     }
 }

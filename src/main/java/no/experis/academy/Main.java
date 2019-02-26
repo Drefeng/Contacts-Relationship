@@ -9,15 +9,11 @@ import java.time.Month;
 
 public class Main {
     public static void main(String[] args){
-        CreateTable.createTables();
-        Person person1 = new Person("Ralf", "Fajardo", LocalDate.of(1988, Month.NOVEMBER, 1));
+        //CreateTable.createTables();
 
-        //new PersonQuery().add(person1);
+        Person p1 = new Person(1, "Thinh", "To", LocalDate.of(1995, Month.JULY, 10));
+        Person p2 = new Person(2, "Billy", "To", LocalDate.of(1995, Month.JULY, 10));
 
-        person1 = new PersonQuery().getById(1);
-
-        System.out.println(person1.getId());
-
-
+        new PersonQuery().add(p2);
     }
 }
