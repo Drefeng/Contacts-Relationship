@@ -6,6 +6,7 @@ import no.experis.academy.Model.Person;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class PersonQuery implements CRUD<Person> {
@@ -44,16 +45,78 @@ public class PersonQuery implements CRUD<Person> {
 
     @Override
     public Person getById(int id) {
-        return null;
+        Person person = null;
+
+        try (Connection conn = PostgresConnection.connect()) {
+            Statement stmt = conn.createStatement();
+            String query = "SELECT * FROM person WHERE id='" + id + "';";
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                String firstName = rs.getString("firstname");
+                String lastName = rs.getString("lastname");
+                LocalDate birthday = LocalDate.parse(rs.getDate("birthday").toString());
+                person = new Person(id, firstName, lastName, birthday);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return person;
     }
 
-    public Person getByName(String name) {
-        return null;
+    public Iterable<Person> getByName(String name) {
+        List<Person> persons = new ArrayList<>();
+
+        String query = "SELECT * FROM person;";
+
+        try (Connection conn = PostgresConnection.connect()) {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            String firstName, lastName, fullName;
+            int id;
+            LocalDate birthday;
+
+            while (rs.next()) {
+                firstName = rs.getString("firstname");
+                lastName = rs.getString("lastname");
+                fullName = firstName + " " + lastName;
+                if (fullName.toLowerCase().contains(name.toLowerCase())) {
+                    id = rs.getInt("id");
+                    birthday = LocalDate.parse(rs.getDate("birthday").toString());
+                    persons.add(new Person(id, firstName, lastName, birthday));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return persons;
     }
 
     @Override
-    public void add(Person item) {
+    public void add(Person person) {
+        String insertQuery = "INSERT INTO person(firstname, lastname, birthday) VALUES(?, ?, ?);";
 
+        try (Connection conn = PostgresConnection.connect()) {
+
+            for (Person p : getByName(person.getFirstName() + " " + person.getLastName())) {
+                if (person.equals(p)) {
+                    System.out.println("Person already exist.");
+                    return;
+                }
+            }
+
+            PreparedStatement pstmt = conn.prepareStatement(insertQuery);
+            pstmt.setString(1, person.getFirstName());
+            pstmt.setString(2, person.getLastName());
+            pstmt.setDate(3, Date.valueOf(person.getBirthday().toString()));
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -64,60 +127,5 @@ public class PersonQuery implements CRUD<Person> {
     @Override
     public Person delete(Person item) {
         return null;
-    }
-
-    public static Person getPerson(int id) {
-        Connection conn = PostgresConnection.connect();
-
-        try {
-            DatabaseMetaData dbm = conn.getMetaData();
-            ResultSet rs = dbm.getTables(null, null, "person", null);
-
-            if (rs.next()) {
-                System.out.println("table exists");
-                conn.setAutoCommit(false);
-
-                Statement stmt = conn.createStatement();
-                ResultSet resultSet = stmt.executeQuery("SELECT * FROM person WHERE _id=" + id);
-                while (resultSet.next()) {
-                    String firstName = resultSet.getString("firstname");
-                    String lastName = resultSet.getString("lastname");
-                    Date date = resultSet.getDate("birthday");
-
-                    System.out.printf("%s %s %s", firstName, lastName, date);
-                }
-            } else {
-                System.out.println("table doesn't exists");
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    public static Person getPerson(String firstName) {
-        return null;
-    }
-
-    public static void createPerson(Person person) {
-        Connection conn = PostgresConnection.connect();
-
-        try {
-            conn.setAutoCommit(false);
-            Statement stmt = conn.createStatement();
-            System.out.println("INSERT INTO person(firstname, lastname, birthday) VALUES('" + person.getFirstName() + "', '" + person.getLastName() + "', '" + person.getBirthday() + "');");
-            stmt.executeUpdate("INSERT INTO persons(firstname, lastname, birthday) VALUES('" + person.getFirstName() + "', '" + person.getLastName() + "', '" + person.getBirthday() + "');");
-            conn.commit();
-
-        } catch (SQLException e) {
-            try {
-                conn.rollback();
-            } catch (SQLException exception) {
-                exception.printStackTrace();
-            }
-            e.printStackTrace();
-        }
     }
 }
