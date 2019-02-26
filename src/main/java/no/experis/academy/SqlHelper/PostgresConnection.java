@@ -5,8 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class PostgresConnection {
+    private static Connection conn = null;
+
     public static Connection connect() {
-        Connection conn = null;
         String url = "jdbc:postgresql://localhost:5432/local?user=postgres";
 
         try {
@@ -16,5 +17,15 @@ public class PostgresConnection {
             e.printStackTrace();
         }
         return conn;
+    }
+
+    public static void disconnect(){
+            try {
+                conn.close();
+            }
+            catch (Exception ex) {
+                System.out.println("The following error has occured: " + ex.getMessage());
+            }
+
     }
 }
