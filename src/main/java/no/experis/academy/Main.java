@@ -20,8 +20,10 @@ public class Main {
         new PersonQuery().add(p1);
         */
 
-        Family f1 = new Family(1, 2, 1 );
+        for(Family family : new FamilyQuery().getByPersonId(2)){
+            System.out.println(family.toString());
+        }
 
-        new FamilyQuery().add(f1);
+
     }
 }

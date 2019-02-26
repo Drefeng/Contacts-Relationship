@@ -80,6 +80,9 @@ public class FamilyQuery implements CRUD<Family> {
         String insertQuery = "INSERT INTO family(person_id, relative_id, relation_id) VALUES(?, ?, ?);";
 
         try( Connection conn = PostgresConnection.connect()){
+
+
+
             conn.setAutoCommit(false);
             PreparedStatement pstmt = conn.prepareStatement(insertQuery);
             pstmt.setInt(1, family.getP_id());

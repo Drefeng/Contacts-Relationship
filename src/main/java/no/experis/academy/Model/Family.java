@@ -50,4 +50,26 @@ public class Family {
     public void setRelation_id(int relation_id) {
         this.relation_id = relation_id;
     }
+
+    @Override
+    public String toString() {
+        return "Family{" +
+                "id=" + id +
+                ", p_id=" + p_id +
+                ", rel_id=" + rel_id +
+                ", relation_id=" + relation_id +
+                '}';
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Family family = (Family) o;
+        return p_id == family.p_id &&
+                rel_id == family.rel_id &&
+                relation_id == family.relation_id;
+    }
+
 }
