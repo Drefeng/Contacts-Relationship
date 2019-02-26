@@ -42,7 +42,7 @@ public class CreateTable {
                     + "home INT ,"
                     + "mobile INT,"
                     + "work INT,"
-                    + "phoneref INT REFERENCES persons (id));";
+                    + "phoneref INT REFERENCES person (id));";
 
             stmt.executeUpdate(sql);
             stmt.close();
@@ -64,7 +64,7 @@ public class CreateTable {
                     + "(id SERIAL PRIMARY KEY NOT NULL,"
                     + "personal VARCHAR(100),"
                     + "work VARCHAR(100),"
-                    + "emailref INT REFERENCES persons (id));";
+                    + "emailref INT REFERENCES person (id));";
 
             stmt.executeUpdate(sql);
             stmt.close();
@@ -86,7 +86,7 @@ public class CreateTable {
                     + "(id SERIAL PRIMARY KEY NOT NULL,"
                     + "current VARCHAR(100),"
                     + "work VARCHAR(100),"
-                    + "address_ref INT REFERENCES persons (id));";
+                    + "address_ref INT REFERENCES person (id));";
 
 
             stmt.executeUpdate(sql);
@@ -109,7 +109,7 @@ public class CreateTable {
         PreparedStatement create = connect.prepareStatement(createTable);
 
 
-        String updateTable = "INSERT INTO relationships"
+        String updateTable = "INSERT INTO relationship"
                 + "(role)"
                 + "VALUES"
                 + "('Father'), ('Mother'), ('Brother '), ('Sister')";
@@ -138,9 +138,9 @@ public class CreateTable {
             stmt = connect.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS family"
                     + "(id SERIAL PRIMARY KEY NOT NULL,"
-                    + "person_id INT REFERENCES persons (id) NOT NULL,"+
-                    " relative_id INT REFERENCES persons (id) NOT NULL,"
-                    + "relation_id INT REFERENCES relationships (id));";
+                    + "person_id INT REFERENCES person (id) NOT NULL,"+
+                    " relative_id INT REFERENCES person (id) NOT NULL,"
+                    + "relation_id INT REFERENCES relationship (id));";
 
             stmt.executeUpdate(sql);
             stmt.close();
