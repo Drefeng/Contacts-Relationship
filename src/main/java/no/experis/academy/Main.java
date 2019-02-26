@@ -4,12 +4,16 @@ import no.experis.academy.Model.CreateTable;
 import no.experis.academy.Model.Person;
 import no.experis.academy.SqlHelper.PersonQuery;
 
+import no.experis.academy.Model.Address;
+import no.experis.academy.SqlHelper.AddressQuery;
+
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Iterator;
 
 public class Main {
     public static void main(String[] args) throws Exception{
+
 
         CreateTable.createTables();
         //Iterator it = new PersonQuery().getAll().iterator();
@@ -19,5 +23,13 @@ public class Main {
            // System.out.printf("%s %s %s", p.getFirstName(), p.getLastName(), p.getBirthday());
             //System.out.println();
         //}
+
+        Iterator it = new AddressQuery().getAll().iterator();
+
+        while (it.hasNext()) {
+           Address a = (Address) it.next();
+           System.out.printf("%s %s", a.getCurrentAddress(), a.getWorkAddress());
+           System.out.println();
+        }
     }
 }
