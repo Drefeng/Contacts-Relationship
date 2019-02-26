@@ -1,17 +1,29 @@
 package no.experis.academy.Model;
 
 public class Address {
-    private String address;
 
-    public Address(String currentAddress){
-        this.address = currentAddress;
+
+    private String currentAddress;
+    private String workAddress;
+
+    public Address(String currentAddress, String workAddress){
+        this.currentAddress = currentAddress;
+        this.workAddress = workAddress;
     }
 
     public String getAddress() {
-        return address;
+        return currentAddress;
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.currentAddress = address;
+    }
+
+    public String getWorkAddress() {
+        return workAddress;
+    }
+
+    public void setWorkAddress(String workAddress) {
+        this.workAddress = workAddress;
     }
 }

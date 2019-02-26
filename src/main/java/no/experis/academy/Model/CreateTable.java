@@ -3,7 +3,7 @@ package no.experis.academy.Model;
 import no.experis.academy.SqlHelper.PostgresConnection;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class CreateTable {
@@ -97,7 +97,7 @@ public class CreateTable {
         System.out.println("Address table created successfully");
     }
 
-    public static void createRelationShip(){
+    public static void createRelationshipTable(){
         Connection connect = null;
         Statement stmt = null;
         try{
@@ -132,11 +132,19 @@ public class CreateTable {
             stmt.executeUpdate(sql);
             stmt.close();
             connect.close();
-        }catch(Exception e){
+        }catch(SQLException e){
             System.out.println(e.getMessage());
             System.exit(0);
         }
         System.out.println("Family table created successfully");
+    }
+
+    public static void createTables() {
+        createPersonTable();
+        createAddressTable();
+        createPhoneTable();
+        createEmailTable();
+        createRelationshipTable();
     }
 
 }
