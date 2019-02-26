@@ -1,6 +1,7 @@
 package no.experis.academy.SqlHelper;
 
 import no.experis.academy.Interfaces.CRUD;
+<<<<<<< HEAD
 import no.experis.academy.Model.Person;
 import no.experis.academy.Model.Phonenumber;
 
@@ -8,10 +9,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+=======
+import no.experis.academy.Model.Phonenumber;
+
+>>>>>>> 99275cbdac6d6764984b520c2af812625bc99773
 public class PhoneQuery implements CRUD<Phonenumber> {
 
     @Override
     public Iterable<Phonenumber> getAll() {
+<<<<<<< HEAD
         List<Phonenumber> phonenumber = null;
 
         try (Connection conn = PostgresConnection.connect()) {
@@ -37,6 +43,9 @@ public class PhoneQuery implements CRUD<Phonenumber> {
             e.printStackTrace();
         }
         return phonenumber;
+=======
+        return null;
+>>>>>>> 99275cbdac6d6764984b520c2af812625bc99773
     }
 
     @Override
@@ -45,6 +54,7 @@ public class PhoneQuery implements CRUD<Phonenumber> {
     }
 
     @Override
+<<<<<<< HEAD
     public void add(Phonenumber phonenumber) {
         String insertQuery = "INSERT INTO phone(home, mobile, work) VALUES(?, ?, ?);";
 
@@ -73,6 +83,10 @@ public class PhoneQuery implements CRUD<Phonenumber> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+=======
+    public void add(Phonenumber item) {
+
+>>>>>>> 99275cbdac6d6764984b520c2af812625bc99773
     }
 
     @Override

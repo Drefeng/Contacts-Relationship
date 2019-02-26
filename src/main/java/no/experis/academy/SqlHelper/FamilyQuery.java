@@ -3,11 +3,7 @@ package no.experis.academy.SqlHelper;
 import no.experis.academy.Interfaces.CRUD;
 import no.experis.academy.Model.Family;
 
-import javax.swing.plaf.nimbus.State;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +28,8 @@ public class FamilyQuery implements CRUD<Family> {
 
             while (rs.next()) {
                 id = rs.getInt("id");
-                personId = rs.getInt("p_id");
-                relativeId = rs.getInt("rel_id");
+                personId = rs.getInt("person_id");
+                relativeId = rs.getInt("relative_id");
                 relationId = rs.getInt("relation_id");
 
                 families.add(new Family(id, personId,relativeId, relationId));
@@ -51,6 +47,8 @@ public class FamilyQuery implements CRUD<Family> {
     @Override
     public Family getById(int id) {
 
+        Family family = null;
+
         try(Connection conn = PostgresConnection.connect()){
             conn.setAutoCommit(false);
             Statement stmt = conn.createStatement();
@@ -63,37 +61,37 @@ public class FamilyQuery implements CRUD<Family> {
 
             while(rs.next()){
                 p_id = rs.getInt("p_id");
-                r_id = rs.getInt("r_id");
-                rel_id = rs.getInt("rel_id");
+                r_id  = rs.getInt("r_id");
+                rel_id  = rs.getInt("rel_id");
 
-                System.out.printf("%s %s %s ", p_id, r_id, rel_id);
-
+                family = new Family(id, p_id, r_id, rel_id);
 
             }
 
         }catch(SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return family;
     }
 
     @Override
     public void add(Family family) {
-        Connection conn = PostgresConnection.connect();
 
-        try{
+        String insertQuery = "INSERT INTO family(person_id, relative_id, relation_id) VALUES(?, ?, ?);";
+
+        try( Connection conn = PostgresConnection.connect()){
+
+
+
             conn.setAutoCommit(false);
-            Statement stmt = conn.createStatement();
-            stmt.executeUpdate("INSERT INTO Family(p_id, r_id, rel_id)" +
-                    " VALUES(" + family.getP_id()+ ", " + family.getRel_id() + ", " + family.getRelation_id() + ";");
+            PreparedStatement pstmt = conn.prepareStatement(insertQuery);
+            pstmt.setInt(1, family.getP_id());
+            pstmt.setInt(2, family.getRel_id());
+            pstmt.setInt(3, family.getRelation_id());
+            pstmt.executeUpdate();
 
             conn.commit();
         } catch (SQLException e) {
-            try {
-                conn.rollback();
-            } catch (SQLException exception) {
-                exception.printStackTrace();
-            }
             e.printStackTrace();
         }
     }
@@ -101,15 +99,14 @@ public class FamilyQuery implements CRUD<Family> {
     @Override
     public void update(Family family) {
         Connection conn = PostgresConnection.connect();
-
         try{
             conn.setAutoCommit(false);
             Statement stmt = conn.createStatement();
-            stmt.executeUpdate("UPDATE FAMILY SET p_id="
-                    + family.getP_id() + ", " + "r_id=" + family.getRel_id() + ", "+ " rel_id=" + family.getRelation_id());
+            stmt.executeUpdate("UPDATE FAMILY SET person_id="
+                    + family.getP_id() + ", " + "relative_id=" + family.getRel_id() + ", "+ " relation_id=" + family.getRelation_id());
 
         }catch(SQLException e){
-
+            e.printStackTrace();
         }
 
     }
@@ -119,8 +116,35 @@ public class FamilyQuery implements CRUD<Family> {
         return null;
     }
 
-    public Iterable<Family> getByPersonId(){
-        return null;
+
+    public Iterable<Family> getByPersonId(int p_id){
+        List<Family> families = new ArrayList<>();
+
+        String query = "SELECT * FROM family;";
+
+        try (Connection conn = PostgresConnection.connect()) {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+
+            int id, r_id, rel_id;
+
+
+            while (rs.next()) {
+                id = rs.getInt("id");
+                rel_id = rs.getInt("relation_id");
+
+                if (p_id == rs.getInt("person_id")) {
+                    r_id = rs.getInt("relative_id");
+                    families.add(new Family(id, p_id, r_id, rel_id));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return families;
     }
 
 

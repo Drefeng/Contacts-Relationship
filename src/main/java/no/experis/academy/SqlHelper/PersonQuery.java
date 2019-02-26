@@ -1,9 +1,8 @@
 package no.experis.academy.SqlHelper;
 
+import java.sql.*;
 import no.experis.academy.Interfaces.CRUD;
 import no.experis.academy.Model.Person;
-
-import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ public class PersonQuery implements CRUD<Person> {
                 firstName = rs.getString("firstname");
                 lastName = rs.getString("lastname");
                 birthday = LocalDate.parse(rs.getDate("birthday").toString());
-                persons.add(new Person(firstName, lastName, birthday));
+                persons.add(new Person(id, firstName, lastName, birthday));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -100,6 +99,14 @@ public class PersonQuery implements CRUD<Person> {
         String insertQuery = "INSERT INTO person(firstname, lastname, birthday) VALUES(?, ?, ?);";
 
         try (Connection conn = PostgresConnection.connect()) {
+
+            for (Person p : getByName(person.getFirstName() + " " + person.getLastName())) {
+                if (person.equals(p)) {
+                    System.out.println("Person already exist.");
+                    return;
+                }
+            }
+
             PreparedStatement pstmt = conn.prepareStatement(insertQuery);
             pstmt.setString(1, person.getFirstName());
             pstmt.setString(2, person.getLastName());
@@ -111,12 +118,41 @@ public class PersonQuery implements CRUD<Person> {
     }
 
     @Override
-    public void update(Person item) {
+    public void update(Person person) {
 
+    }
+
+    public void updateById(int id, Person person) {
+        Connection conn = PostgresConnection.connect();
+        String updateQuery = "UPDATE person SET firstname=?, lastname=?, birthday=? WHERE id=" + id;
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(updateQuery);
+            pstmt.setString(1, person.getFirstName());
+            pstmt.setString(2, person.getLastName());
+            pstmt.setDate(3, Date.valueOf(person.getBirthday().toString()));
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public Person delete(Person item) {
+
         return null;
+    }
+
+    public boolean deleteById(int id) {
+        Connection conn = PostgresConnection.connect();
+
+        String deleteQuery = "DELETE FROM person WHERE id=" + id;
+        try {
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(deleteQuery);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
