@@ -8,49 +8,92 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddressQuery implements CRUD<Address> {
-    public AddressQuery() {
-
-    }
 
     @Override
     public Iterable<Address> getAll() {
-        List<Address> addresses = null;
+        List<Address> address = null;
 
         try (Connection conn = PostgresConnection.connect()) {
             conn.setAutoCommit(false);
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM addresses");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM address;");
 
-            addresses = new ArrayList<>();
+            address = new ArrayList<>();
 
             int id = 0;
-            String currentAddress;
-            String workAddress;
+            int refId = 0;
+            String currentAddress, workAddress;
 
             while (rs.next()) {
                 id = rs.getInt("id");
                 currentAddress = rs.getString("current");
                 workAddress = rs.getString("work");
-                addresses.add(new Address(id, currentAddress, workAddress));
+                refId = rs.getInt("address_ref");
+
+                address.add(new Address(id, refId, currentAddress,workAddress ));
+
+                conn.close();
             }
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return addresses;
+        return address;
     }
 
     @Override
     public Address getById(int id) {
-        return null;
+        Address address = null;
+
+        try(Connection conn = PostgresConnection.connect()){
+            conn.setAutoCommit(false);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM  Address WHERE id=" + id + ";");
+
+            int refId = 0;
+            String currentAddress, workAddress;
+
+            while(rs.next()){
+                id = rs.getInt("id");
+                refId  = rs.getInt("address_ref");
+                currentAddress  = rs.getString("current");
+                workAddress  = rs.getString("work");
+
+                address = new Address(id, refId, currentAddress, workAddress);
+            }
+
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return address;
     }
 
     @Override
-    public void add(Address item) {
+    public void add(Address address) {
 
+        String insertQuery = "INSERT INTO address(id, current, work, address_ref) VALUES(?, ?, ?, ?);";
+
+        try( Connection conn = PostgresConnection.connect()){
+
+
+            conn.setAutoCommit(false);
+            PreparedStatement pstmt = conn.prepareStatement(insertQuery);
+            pstmt.setInt(1, address.getId());
+            pstmt.setString(2, address.getCurrentAddress());
+            pstmt.setString(3, address.getCurrentAddress());
+            pstmt.setInt(4, address.getRefId());
+            pstmt.executeUpdate();
+
+            conn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void update(Address item) {
+
 
     }
 
@@ -59,57 +102,32 @@ public class AddressQuery implements CRUD<Address> {
         return null;
     }
 
-    public static Address getAddress(int id) {
+
+    public void updateById(int id, Address address) {
         Connection conn = PostgresConnection.connect();
-
+        String updateQuery = "UPDATE address SET current=?, work=?,  WHERE id=" + id;
         try {
-            DatabaseMetaData dbm = conn.getMetaData();
-            ResultSet rs = dbm.getTables(null, null, "address", null);
-
-            if (rs.next()) {
-                System.out.println("table exists");
-                conn.setAutoCommit(false);
-
-                Statement stmt = conn.createStatement();
-                ResultSet resultSet = stmt.executeQuery("SELECT * FROM addresses WHERE _id=" + id);
-                while (resultSet.next()) {
-                    String currentAddress = resultSet.getString("current");
-                    String workAddress = resultSet.getString("work");
-
-                    System.out.printf("%s %s", currentAddress, workAddress);
-                }
-            } else {
-                System.out.println("table doesn't exists");
-            }
-
+            PreparedStatement pstmt = conn.prepareStatement(updateQuery);
+            pstmt.setString(1, address.getCurrentAddress());
+            pstmt.setString(2, address.getWorkAddress());
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return null;
     }
 
-    public static Address getAddress(String currentAddress) {
-        return null;
-    }
-
-    public static void createAddress(Address address) {
+    public boolean deleteById(int id) {
         Connection conn = PostgresConnection.connect();
 
+        String deleteQuery = "DELETE FROM address WHERE id=" + id;
         try {
-            conn.setAutoCommit(false);
             Statement stmt = conn.createStatement();
-            System.out.println("INSERT INTO address(currentAddress, workAddress) VALUES('" + address.getCurrentAddress() + "', '" + address.getWorkAddress() + "');");
-            stmt.executeUpdate("INSERT INTO address(currentAddress, workAddress) VALUES('" + address.getCurrentAddress() + "', '" + address.getWorkAddress() + "');");
-            conn.commit();
-
+            stmt.executeUpdate(deleteQuery);
+            return true;
         } catch (SQLException e) {
-            try {
-                conn.rollback();
-            } catch (SQLException exception) {
-                exception.printStackTrace();
-            }
             e.printStackTrace();
         }
+        return false;
     }
+
 }

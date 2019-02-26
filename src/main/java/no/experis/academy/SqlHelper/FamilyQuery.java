@@ -11,7 +11,7 @@ public class FamilyQuery implements CRUD<Family> {
 
 
     @Override
-    public Iterable getAll() {
+    public Iterable<Family> getAll() {
         List<Family> families = null;
 
         try (Connection conn = PostgresConnection.connect()) {
@@ -60,9 +60,9 @@ public class FamilyQuery implements CRUD<Family> {
             int rel_id = 0;
 
             while(rs.next()){
-                p_id = rs.getInt("p_id");
-                r_id  = rs.getInt("r_id");
-                rel_id  = rs.getInt("rel_id");
+                p_id = rs.getInt("person_id");
+                r_id  = rs.getInt("relative_id");
+                rel_id  = rs.getInt("relation_id");
 
                 family = new Family(id, p_id, r_id, rel_id);
 
@@ -147,5 +147,20 @@ public class FamilyQuery implements CRUD<Family> {
         return families;
     }
 
+    public boolean deleteById(int id) {
+        Connection conn = PostgresConnection.connect();
+
+        String deleteQuery = "DELETE FROM family WHERE id=" + id;
+        try {
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(deleteQuery);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 }
+
+
