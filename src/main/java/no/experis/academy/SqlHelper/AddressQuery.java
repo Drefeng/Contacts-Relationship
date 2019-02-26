@@ -72,17 +72,16 @@ public class AddressQuery implements CRUD<Address> {
     @Override
     public void add(Address address) {
 
-        String insertQuery = "INSERT INTO address(id, current, work, address_ref) VALUES(?, ?, ?, ?);";
+        String insertQuery = "INSERT INTO address( current, work, address_ref) VALUES( ?, ?, ?);";
 
         try( Connection conn = PostgresConnection.connect()){
 
 
             conn.setAutoCommit(false);
             PreparedStatement pstmt = conn.prepareStatement(insertQuery);
-            pstmt.setInt(1, address.getId());
+            pstmt.setString(1, address.getCurrentAddress());
             pstmt.setString(2, address.getCurrentAddress());
-            pstmt.setString(3, address.getCurrentAddress());
-            pstmt.setInt(4, address.getRefId());
+            pstmt.setInt(3, address.getRefId());
             pstmt.executeUpdate();
 
             conn.commit();
