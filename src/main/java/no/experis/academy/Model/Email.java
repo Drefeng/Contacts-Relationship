@@ -5,6 +5,7 @@ public class Email {
     private String work;
 
     public Email(String personal, String work){
+
         this.personal = personal;
         this.work = work;
     }
