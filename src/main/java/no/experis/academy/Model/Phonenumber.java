@@ -53,7 +53,9 @@ public class Phonenumber {
         return work;
     }
 
+    public int getId() {return id;}
+
     public String toString(){
-        return getHome() + " " + getMobile() + " " + getWork();
+        return getId() + " " + getHome() + " " + getMobile() + " " + getWork();
     }
 }
