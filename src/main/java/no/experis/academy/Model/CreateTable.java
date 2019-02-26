@@ -31,7 +31,7 @@ public class CreateTable {
         System.out.println("Persons table created successfully");
     }
 
-    private static void createPhoneTable(){
+    public static void createPhoneTable(){
         Connection connect = null;
         Statement stmt = null;
         try{
@@ -39,9 +39,9 @@ public class CreateTable {
             stmt = connect.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS phone"
                     + "(id SERIAL PRIMARY KEY NOT NULL,"
-                    + "home INT ,"
-                    + "mobile INT,"
-                    + "work INT,"
+                    + "home VARCHAR(100) ,"
+                    + "mobile VARCHAR(100),"
+                    + "work VARCHAR(100 ),"
                     + "phoneref INT REFERENCES person (id));";
 
             stmt.executeUpdate(sql);
