@@ -97,7 +97,7 @@ public class EmailQuery implements CRUD<Email> {
 
     public void updateEmailById(int id, Email email) {
         Connection conn = PostgresConnection.connect();
-        String updateQuery = "UPDATE phone SET home=?, mobile=?, work=? WHERE id=" + id;
+        String updateQuery = "UPDATE email SET personal=?, work=? WHERE id=" + id;
         try {
             PreparedStatement pstmt = conn.prepareStatement(updateQuery);
             pstmt.setString(1, email.getPersonal());
