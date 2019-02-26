@@ -11,9 +11,9 @@ public class Main {
     public static void main(String[] args){
         //CreateTable.createTables();
 
-        Person p1 = new Person(1, "Thinh", "To", LocalDate.of(1995, Month.JULY, 10));
-        Person p2 = new Person(2, "Billy", "To", LocalDate.of(1995, Month.JULY, 10));
+        Person p1 = new Person("Thinh", "To", LocalDate.of(1995, Month.JULY, 10));
+        Person p2 = new Person("Ralf", "Fajardo", LocalDate.of(1988, Month.NOVEMBER, 1));
 
-        new PersonQuery().add(p2);
+        new PersonQuery().updateById(5, new Person("", "", LocalDate.of(1988, Month.NOVEMBER, 2)));
     }
 }
