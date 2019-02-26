@@ -19,7 +19,7 @@ public class AddressQuery implements CRUD<Address> {
         try (Connection conn = PostgresConnection.connect()) {
             conn.setAutoCommit(false);
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM address");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM addresses");
 
             addresses = new ArrayList<>();
 
@@ -29,8 +29,8 @@ public class AddressQuery implements CRUD<Address> {
 
             while (rs.next()) {
                 id = rs.getInt("id");
-                currentAddress = rs.getString("currentAddress");
-                workAddress = rs.getString("workAddress");
+                currentAddress = rs.getString("current");
+                workAddress = rs.getString("work");
                 addresses.add(new Address(id, currentAddress, workAddress));
             }
         } catch (SQLException e) {
@@ -71,12 +71,12 @@ public class AddressQuery implements CRUD<Address> {
                 conn.setAutoCommit(false);
 
                 Statement stmt = conn.createStatement();
-                ResultSet resultSet = stmt.executeQuery("SELECT * FROM address WHERE _id=" + id);
+                ResultSet resultSet = stmt.executeQuery("SELECT * FROM addresses WHERE _id=" + id);
                 while (resultSet.next()) {
-                    String currentAddress = resultSet.getString("currentAddress");
-                    String workAddress = resultSet.getString("workAddress");
+                    String currentAddress = resultSet.getString("current");
+                    String workAddress = resultSet.getString("work");
 
-                    System.out.printf("%s %s %s", currentAddress, workAddress);
+                    System.out.printf("%s %s", currentAddress, workAddress);
                 }
             } else {
                 System.out.println("table doesn't exists");
