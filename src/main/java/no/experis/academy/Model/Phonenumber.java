@@ -1,46 +1,59 @@
 package no.experis.academy.Model;
 
 public class Phonenumber {
-    private int home;
-    private int mobile;
-    private int work;
+    private String home;
+    private String mobile;
+    private String work;
+    private int id;
 
-    public Phonenumber(int home, int mobile, int work) {
+    public Phonenumber(int id, String home, String mobile, String work) {
         this.home = home;
         this.mobile = mobile;
         this.work = work;
+        this.id = id;
     }
 
-    public Phonenumber(int mobile, int work) {
+    public Phonenumber( String home, String mobile, String work) {
+        this.home = home;
+        this.mobile = mobile;
+        this.work = work;
+        this.id = id;
+    }
+
+    public Phonenumber(String mobile, String work) {
         this.mobile = work;
         this.work = work;
     }
 
-    public Phonenumber(int mobile){
+    public Phonenumber(String mobile){
         this.mobile = mobile;
     }
 
-    public void setHome(int home) {
+    public void setHome(String home) {
         this.home = home;
     }
 
-    public void setMobile(int mobile) {
+    public void setMobile(String mobile) {
         this.mobile = mobile;
     }
 
-    public void setWork(int work) {
+    public void setWork(String work) {
         this.work = work;
     }
 
-    public int getHome() {
+    public String getHome() {
         return home;
     }
 
-    public int getMobile() {
+    public String getMobile() {
         return mobile;
     }
 
-    public int getWork() {
+    public String getWork() {
         return work;
+    }
+
+    public String toString(){
+        return getHome() + " " + getMobile() + " " + getWork();
     }
 }
