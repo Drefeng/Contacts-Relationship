@@ -14,6 +14,12 @@ public class Family {
         this.relation_id = relation_id;
     }
 
+    public Family(int p_id, int rel_id, int relation_id) {
+        this.p_id = p_id;
+        this.rel_id = rel_id;
+        this.relation_id = relation_id;
+    }
+
     public int getId() {
         return id;
     }
