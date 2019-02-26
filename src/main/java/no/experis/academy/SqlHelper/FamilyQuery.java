@@ -28,8 +28,8 @@ public class FamilyQuery implements CRUD<Family> {
 
             while (rs.next()) {
                 id = rs.getInt("id");
-                personId = rs.getInt("p_id");
-                relativeId = rs.getInt("rel_id");
+                personId = rs.getInt("person_id");
+                relativeId = rs.getInt("relative_id");
                 relationId = rs.getInt("relation_id");
 
                 families.add(new Family(id, personId,relativeId, relationId));
@@ -77,7 +77,7 @@ public class FamilyQuery implements CRUD<Family> {
     @Override
     public void add(Family family) {
 
-        String insertQuery = "INSERT INTO family(p_id, r_id, rel_id) VALUES(?, ?, ?);";
+        String insertQuery = "INSERT INTO family(person_id, relative_id, relation_id) VALUES(?, ?, ?);";
 
         try( Connection conn = PostgresConnection.connect()){
             conn.setAutoCommit(false);
@@ -99,8 +99,8 @@ public class FamilyQuery implements CRUD<Family> {
         try{
             conn.setAutoCommit(false);
             Statement stmt = conn.createStatement();
-            stmt.executeUpdate("UPDATE FAMILY SET p_id="
-                    + family.getP_id() + ", " + "r_id=" + family.getRel_id() + ", "+ " rel_id=" + family.getRelation_id());
+            stmt.executeUpdate("UPDATE FAMILY SET person_id="
+                    + family.getP_id() + ", " + "relative_id=" + family.getRel_id() + ", "+ " relation_id=" + family.getRelation_id());
 
         }catch(SQLException e){
             e.printStackTrace();
@@ -129,10 +129,10 @@ public class FamilyQuery implements CRUD<Family> {
 
             while (rs.next()) {
                 id = rs.getInt("id");
-                rel_id = rs.getInt("rel_id");
+                rel_id = rs.getInt("relation_id");
 
-                if (p_id == rs.getInt("p_id")) {
-                    r_id = rs.getInt("r_id");
+                if (p_id == rs.getInt("person_id")) {
+                    r_id = rs.getInt("relative_id");
                     families.add(new Family(id, p_id, r_id, rel_id));
                 }
             }
