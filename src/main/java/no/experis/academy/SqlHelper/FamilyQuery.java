@@ -14,7 +14,7 @@ public class FamilyQuery implements CRUD<Family> {
     public Iterable<Family> getAll() {
         List<Family> families = null;
 
-        try (Connection conn = PostgresConnection.connect()) {
+        try (Connection conn = PostgresConnection.getConnection()) {
             conn.setAutoCommit(false);
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM family;");
@@ -49,7 +49,7 @@ public class FamilyQuery implements CRUD<Family> {
 
         Family family = null;
 
-        try(Connection conn = PostgresConnection.connect()){
+        try(Connection conn = PostgresConnection.getConnection()){
             conn.setAutoCommit(false);
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM  Family WHERE id=" + id + ";");
@@ -79,7 +79,7 @@ public class FamilyQuery implements CRUD<Family> {
 
         String insertQuery = "INSERT INTO family(person_id, relative_id, relation_id) VALUES(?, ?, ?);";
 
-        try( Connection conn = PostgresConnection.connect()){
+        try( Connection conn = PostgresConnection.getConnection()){
 
 
 
@@ -98,7 +98,7 @@ public class FamilyQuery implements CRUD<Family> {
 
     @Override
     public void update(Family family) {
-        Connection conn = PostgresConnection.connect();
+        Connection conn = PostgresConnection.getConnection();
         try{
             conn.setAutoCommit(false);
             Statement stmt = conn.createStatement();
@@ -122,7 +122,7 @@ public class FamilyQuery implements CRUD<Family> {
 
         String query = "SELECT * FROM family;";
 
-        try (Connection conn = PostgresConnection.connect()) {
+        try (Connection conn = PostgresConnection.getConnection()) {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
@@ -148,7 +148,7 @@ public class FamilyQuery implements CRUD<Family> {
     }
 
     public boolean deleteById(int id) {
-        Connection conn = PostgresConnection.connect();
+        Connection conn = PostgresConnection.getConnection();
 
         String deleteQuery = "DELETE FROM family WHERE id=" + id;
         try {

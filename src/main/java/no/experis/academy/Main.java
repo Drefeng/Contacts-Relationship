@@ -12,12 +12,16 @@ public class Main {
 
     public static void main(String[] args){
 
-        try {
-            new PostgresConnection().getConnection();
+        /*try {
+            CreateTable.createTables();
             System.out.println("passed");
         }catch(Exception e){
             e.getStackTrace();
-        }
+        }*/
+
+        new AddressQuery().add(new Address( 1, "noroffveien 3234", "experisveien 1401" ));
+
+
     }
 
 }

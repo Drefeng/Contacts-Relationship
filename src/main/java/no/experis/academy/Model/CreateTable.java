@@ -13,7 +13,7 @@ public class CreateTable {
         Connection connect = null;
         Statement stmt = null;
         try{
-            connect = PostgresConnection.connect();
+            connect = PostgresConnection.getConnection();
             stmt = connect.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS person"
                         + "(id SERIAL PRIMARY KEY NOT NULL,"
@@ -35,7 +35,7 @@ public class CreateTable {
         Connection connect = null;
         Statement stmt = null;
         try{
-            connect = PostgresConnection.connect();
+            connect = PostgresConnection.getConnection();
             stmt = connect.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS phone"
                     + "(id SERIAL PRIMARY KEY NOT NULL,"
@@ -58,7 +58,7 @@ public class CreateTable {
         Connection connect = null;
         Statement stmt = null;
         try{
-            connect = PostgresConnection.connect();
+            connect = PostgresConnection.getConnection();
             stmt = connect.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS email"
                     + "(id SERIAL PRIMARY KEY NOT NULL,"
@@ -80,7 +80,7 @@ public class CreateTable {
         Connection connect = null;
         Statement stmt = null;
         try{
-            connect = PostgresConnection.connect();
+            connect = PostgresConnection.getConnection();
             stmt = connect.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS address"
                     + "(id SERIAL PRIMARY KEY NOT NULL,"
@@ -99,7 +99,7 @@ public class CreateTable {
     }
 
     private static void createRelationshipTable() throws Exception{
-        Connection connect = PostgresConnection.connect();
+        Connection connect = PostgresConnection.getConnection();
         Statement stmt = connect.createStatement();
 
         String createTable = "CREATE TABLE IF NOT EXISTS relationship"
@@ -133,7 +133,7 @@ public class CreateTable {
         Connection connect = null;
         Statement stmt = null;
         try{
-            connect = PostgresConnection.connect();
+            connect = PostgresConnection.getConnection();
             stmt = connect.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS family"
                     + "(id SERIAL PRIMARY KEY NOT NULL,"

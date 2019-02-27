@@ -21,7 +21,7 @@ public class PostgresConnection {
         return conn;
     }
 
-    public Connection getConnection(){
+    public static Connection getConnection(){
 
         try {
             URI dbUri = new URI("postgres://cuvjnnwlehuqix:85ba6fd1f3052e1f2fb64d3c2998b49bcdc1212c72433fa4b0e77a44bab2b517@ec2-46-137-170-51.eu-west-1.compute.amazonaws.com:5432/dd9bgbp44cm3ue");

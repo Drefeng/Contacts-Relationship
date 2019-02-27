@@ -16,7 +16,7 @@ public class PersonQuery implements CRUD<Person> {
     public Iterable<Person> getAll() {
         List<Person> persons = null;
 
-        try (Connection conn = PostgresConnection.connect()) {
+        try (Connection conn = PostgresConnection.getConnection()) {
             conn.setAutoCommit(false);
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM person");
@@ -45,7 +45,7 @@ public class PersonQuery implements CRUD<Person> {
     public Person getById(int id) {
         Person person = null;
 
-        try (Connection conn = PostgresConnection.connect()) {
+        try (Connection conn = PostgresConnection.getConnection()) {
             Statement stmt = conn.createStatement();
             String query = "SELECT * FROM person WHERE id='" + id + "';";
             ResultSet rs = stmt.executeQuery(query);
@@ -68,7 +68,7 @@ public class PersonQuery implements CRUD<Person> {
 
         String query = "SELECT * FROM person;";
 
-        try (Connection conn = PostgresConnection.connect()) {
+        try (Connection conn = PostgresConnection.getConnection()) {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
@@ -98,7 +98,7 @@ public class PersonQuery implements CRUD<Person> {
     public void add(Person person) {
         String insertQuery = "INSERT INTO person(firstname, lastname, birthday) VALUES(?, ?, ?);";
 
-        try (Connection conn = PostgresConnection.connect()) {
+        try (Connection conn = PostgresConnection.getConnection()) {
 
             for (Person p : getByName(person.getFirstName() + " " + person.getLastName())) {
                 if (person.equals(p)) {
@@ -123,7 +123,7 @@ public class PersonQuery implements CRUD<Person> {
     }
 
     public void updateById(int id, Person person) {
-        Connection conn = PostgresConnection.connect();
+        Connection conn = PostgresConnection.getConnection();
         String updateQuery = "UPDATE person SET firstname=?, lastname=?, birthday=? WHERE id=" + id;
         try {
             PreparedStatement pstmt = conn.prepareStatement(updateQuery);
@@ -143,7 +143,7 @@ public class PersonQuery implements CRUD<Person> {
     }
 
     public boolean deleteById(int id) {
-        Connection conn = PostgresConnection.connect();
+        Connection conn = PostgresConnection.getConnection();
 
         String deleteQuery = "DELETE FROM person WHERE id=" + id;
         try {

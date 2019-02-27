@@ -14,7 +14,7 @@ public class EmailQuery implements CRUD<Email> {
 
         List<Email> emails = null;
 
-        try (Connection conn = PostgresConnection.connect()) {
+        try (Connection conn = PostgresConnection.getConnection()) {
             conn.setAutoCommit(false);
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM email");
@@ -42,7 +42,7 @@ public class EmailQuery implements CRUD<Email> {
 
         List<Email> emails = null;
 
-        try (Connection conn = PostgresConnection.connect()) {
+        try (Connection conn = PostgresConnection.getConnection()) {
             conn.setAutoCommit(false);
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM email WHERE emailRef='" + refId + "';");
@@ -71,7 +71,7 @@ public class EmailQuery implements CRUD<Email> {
     public Email getById(int id) {
         Email email = null;
 
-        try (Connection conn = PostgresConnection.connect()) {
+        try (Connection conn = PostgresConnection.getConnection()) {
             Statement stmt = conn.createStatement();
             String query = "SELECT * FROM email WHERE id='" + id + "';";
             ResultSet rs = stmt.executeQuery(query);
@@ -95,7 +95,7 @@ public class EmailQuery implements CRUD<Email> {
     public Email getByRefId(int refId) {
         Email email = null;
 
-        try (Connection conn = PostgresConnection.connect()) {
+        try (Connection conn = PostgresConnection.getConnection()) {
             Statement stmt = conn.createStatement();
             String query = "SELECT * FROM email WHERE emailRef='" + refId + "';";
             ResultSet rs = stmt.executeQuery(query);
@@ -119,7 +119,7 @@ public class EmailQuery implements CRUD<Email> {
     public void add(Email email) {
         String insertQuery = "INSERT INTO email(personal, work, emailRef) VALUES(?, ?, ?);";
 
-        try (Connection conn = PostgresConnection.connect()) {
+        try (Connection conn = PostgresConnection.getConnection()) {
             PreparedStatement pstmt = conn.prepareStatement(insertQuery);
             pstmt.setString(1, email.getPersonal());
             pstmt.setString(2, email.getWork());
@@ -133,7 +133,7 @@ public class EmailQuery implements CRUD<Email> {
 
     public void addCustom(Email email, int refId) {
 
-        try (Connection conn = PostgresConnection.connect()) {
+        try (Connection conn = PostgresConnection.getConnection()) {
             String insertQuery = "INSERT INTO email(personal, work, emailRef) VALUES(?, ?, ?);";
 
             PreparedStatement pstmt = conn.prepareStatement(insertQuery);
@@ -153,7 +153,7 @@ public class EmailQuery implements CRUD<Email> {
 
     public void updateEmailById(int id, Email email) {
 
-        try (Connection conn = PostgresConnection.connect()){
+        try (Connection conn = PostgresConnection.getConnection()){
             String updateQuery = "UPDATE email SET personal=?, work=? WHERE id=" + id;
             PreparedStatement pstmt = conn.prepareStatement(updateQuery);
             pstmt.setString(1, email.getPersonal());
@@ -172,7 +172,7 @@ public class EmailQuery implements CRUD<Email> {
 
     public void deleteById(int id) {
 
-        try(Connection conn  = PostgresConnection.connect()){
+        try(Connection conn  = PostgresConnection.getConnection()){
             String deleteQuery = "DELETE FROM email WHERE id=" + id;
             PreparedStatement pstmt = conn.prepareStatement(deleteQuery);
             pstmt.executeUpdate();

@@ -13,7 +13,7 @@ public class AddressQuery implements CRUD<Address> {
     public Iterable<Address> getAll() {
         List<Address> address = null;
 
-        try (Connection conn = PostgresConnection.connect()) {
+        try (Connection conn = PostgresConnection.getConnection()) {
             conn.setAutoCommit(false);
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM address;");
@@ -28,7 +28,7 @@ public class AddressQuery implements CRUD<Address> {
                 id = rs.getInt("id");
                 currentAddress = rs.getString("current");
                 workAddress = rs.getString("work");
-                refId = rs.getInt("address_ref");
+                refId = rs.getInt("addressref");
 
                 address.add(new Address(id, refId, currentAddress,workAddress ));
 
@@ -44,7 +44,7 @@ public class AddressQuery implements CRUD<Address> {
     public Iterable<Address> getAllByRefId() {
         List<Address> address = null;
 
-        try (Connection conn = PostgresConnection.connect()) {
+        try (Connection conn = PostgresConnection.getConnection()) {
             conn.setAutoCommit(false);
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM address WHERE addressRef;");
@@ -59,7 +59,7 @@ public class AddressQuery implements CRUD<Address> {
                 id = rs.getInt("id");
                 currentAddress = rs.getString("current");
                 workAddress = rs.getString("work");
-                refId = rs.getInt("address_ref");
+                refId = rs.getInt("addressref");
 
                 address.add(new Address(id, refId, currentAddress,workAddress ));
 
@@ -76,7 +76,7 @@ public class AddressQuery implements CRUD<Address> {
     public Address getById(int id) {
         Address address = null;
 
-        try(Connection conn = PostgresConnection.connect()){
+        try(Connection conn = PostgresConnection.getConnection()){
             conn.setAutoCommit(false);
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM  Address WHERE id=" + id + ";");
@@ -102,15 +102,15 @@ public class AddressQuery implements CRUD<Address> {
     @Override
     public void add(Address address) {
 
-        String insertQuery = "INSERT INTO address( current, work, address_ref) VALUES( ?, ?, ?);";
+        String insertQuery = "INSERT INTO address( current, work, addressref) VALUES( ?, ?, ?);";
 
-        try( Connection conn = PostgresConnection.connect()){
+        try( Connection conn = PostgresConnection.getConnection()){
 
 
             conn.setAutoCommit(false);
             PreparedStatement pstmt = conn.prepareStatement(insertQuery);
             pstmt.setString(1, address.getCurrentAddress());
-            pstmt.setString(2, address.getCurrentAddress());
+            pstmt.setString(2, address.getWorkAddress());
             pstmt.setInt(3, address.getRefId());
             pstmt.executeUpdate();
 
@@ -133,7 +133,7 @@ public class AddressQuery implements CRUD<Address> {
 
 
     public void updateById(int id, Address address) {
-        try ( Connection conn = PostgresConnection.connect()){
+        try ( Connection conn = PostgresConnection.getConnection()){
             String updateQuery = "UPDATE address SET current=?, work=?,  WHERE id=" + id;
 
             PreparedStatement pstmt = conn.prepareStatement(updateQuery);
@@ -146,7 +146,7 @@ public class AddressQuery implements CRUD<Address> {
     }
 
     public boolean deleteById(int id) {
-        try(Connection conn = PostgresConnection.connect()) {
+        try(Connection conn = PostgresConnection.getConnection()) {
             String deleteQuery = "DELETE FROM address WHERE id=" + id;
 
             Statement stmt = conn.createStatement();
