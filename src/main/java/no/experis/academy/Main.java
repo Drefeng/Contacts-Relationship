@@ -10,8 +10,7 @@ import java.util.Iterator;
 
 public class Main {
     public static void main(String[] args){
-        new AddressQuery().add(new Address(1, "gmail@gmail.com", "gblablabla@gmail.com"));
-
+        new PhoneQuery().addCustom(new Phonenumber("39284938", "234234", "123434"), 1);
 
     }
 

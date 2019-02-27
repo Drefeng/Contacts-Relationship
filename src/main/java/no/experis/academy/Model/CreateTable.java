@@ -88,7 +88,6 @@ public class CreateTable {
                     + "work VARCHAR(100),"
                     + "addressRef INT REFERENCES person (id));";
 
-
             stmt.executeUpdate(sql);
             stmt.close();
             connect.close();
@@ -112,7 +111,7 @@ public class CreateTable {
         String updateTable = "INSERT INTO relationship"
                 + "(role)"
                 + "VALUES"
-                + "('Father'), ('Mother'), ('Brother '), ('Sister')";
+                + "('Father'), ('Mother'), ('Child'), ('Siblings')";
         PreparedStatement update = connect.prepareStatement(updateTable);
 
         boolean autoCommit = connect.getAutoCommit();

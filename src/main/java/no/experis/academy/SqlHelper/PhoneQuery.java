@@ -79,14 +79,14 @@ public class PhoneQuery implements CRUD<Phonenumber> {
     }
 
 
-    public void addCustom(Phonenumber phonenumber, int id) {
+    public void addCustom(Phonenumber phonenumber, int phoneRef) {
         try (Connection conn = PostgresConnection.connect()) {
-            String insertQuery = "INSERT INTO phone(home, mobile, work, id) VALUES(?, ?, ?, ?);";
+            String insertQuery = "INSERT INTO phone(home, mobile, work, phoneRef) VALUES(?, ?, ?, ?);";
             PreparedStatement pstmt = conn.prepareStatement(insertQuery);
             pstmt.setString(1, phonenumber.getHome());
             pstmt.setString(2, phonenumber.getMobile());
             pstmt.setString(3, phonenumber.getWork());
-            pstmt.setInt(4, id);
+            pstmt.setInt(4, phoneRef);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
