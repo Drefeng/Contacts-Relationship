@@ -45,7 +45,6 @@ public class PhoneQuery implements CRUD<Phonenumber> {
     @Override
     public Phonenumber getById(int id) {
         Phonenumber phonenumber = null;
-
         try (Connection conn = PostgresConnection.connect()) {
             Statement stmt = conn.createStatement();
             String query = "SELECT * FROM phone WHERE id='" + id + "';";
@@ -66,9 +65,8 @@ public class PhoneQuery implements CRUD<Phonenumber> {
 
     @Override
     public void add(Phonenumber phonenumber) {
-        String insertQuery = "INSERT INTO phone(home, mobile, work) VALUES(?, ?, ?);";
-
         try (Connection conn = PostgresConnection.connect()) {
+            String insertQuery = "INSERT INTO phone(home, mobile, work) VALUES(?, ?, ?);";
             PreparedStatement pstmt = conn.prepareStatement(insertQuery);
             pstmt.setString(1, phonenumber.getHome());
             pstmt.setString(2, phonenumber.getMobile());
@@ -82,10 +80,8 @@ public class PhoneQuery implements CRUD<Phonenumber> {
 
 
     public void addCustom(Phonenumber phonenumber, int id) {
-        String insertQuery = "INSERT INTO phone(home, mobile, work, id) VALUES(?, ?, ?, ?);";
-
         try (Connection conn = PostgresConnection.connect()) {
-
+            String insertQuery = "INSERT INTO phone(home, mobile, work, id) VALUES(?, ?, ?, ?);";
             PreparedStatement pstmt = conn.prepareStatement(insertQuery);
             pstmt.setString(1, phonenumber.getHome());
             pstmt.setString(2, phonenumber.getMobile());
@@ -104,9 +100,8 @@ public class PhoneQuery implements CRUD<Phonenumber> {
 
 
     public void updatePhoneById(int id, Phonenumber phone) {
-        Connection conn = PostgresConnection.connect();
-        String updateQuery = "UPDATE phone SET home=?, mobile=?, work=? WHERE id=" + id;
-        try {
+        try (Connection conn = PostgresConnection.connect()) {
+            String updateQuery = "UPDATE phone SET home=?, mobile=?, work=? WHERE id=" + id;
             PreparedStatement pstmt = conn.prepareStatement(updateQuery);
             pstmt.setString(1, phone.getHome());
             pstmt.setString(2, phone.getMobile());
@@ -123,9 +118,8 @@ public class PhoneQuery implements CRUD<Phonenumber> {
     }
 
     public void deleteById(Phonenumber phonenumber, int id) {
-        Connection conn  = PostgresConnection.connect();
-        String deleteQuery = "DELETE FROM phone WHERE id=" + id;
-        try{
+        try(Connection conn  = PostgresConnection.connect()){
+            String deleteQuery = "DELETE FROM phone WHERE id=" + id;
             PreparedStatement pstmt = conn.prepareStatement(deleteQuery);
             pstmt.executeUpdate();
         }catch (SQLException e){
@@ -134,10 +128,8 @@ public class PhoneQuery implements CRUD<Phonenumber> {
     }
 
     public boolean delete(int id) {
-        Connection conn = PostgresConnection.connect();
-
-        String deleteQuery = "DELETE FROM phone WHERE id=" + id;
-        try {
+        try(Connection conn = PostgresConnection.connect()) {
+            String deleteQuery = "DELETE FROM phone WHERE id=" + id;
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(deleteQuery);
             return true;

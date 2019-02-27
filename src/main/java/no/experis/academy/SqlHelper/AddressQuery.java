@@ -104,9 +104,9 @@ public class AddressQuery implements CRUD<Address> {
 
 
     public void updateById(int id, Address address) {
-        Connection conn = PostgresConnection.connect();
-        String updateQuery = "UPDATE address SET current=?, work=?,  WHERE id=" + id;
-        try {
+        try ( Connection conn = PostgresConnection.connect();){
+            String updateQuery = "UPDATE address SET current=?, work=?,  WHERE id=" + id;
+
             PreparedStatement pstmt = conn.prepareStatement(updateQuery);
             pstmt.setString(1, address.getCurrentAddress());
             pstmt.setString(2, address.getWorkAddress());
@@ -117,10 +117,9 @@ public class AddressQuery implements CRUD<Address> {
     }
 
     public boolean deleteById(int id) {
-        Connection conn = PostgresConnection.connect();
+        try(Connection conn = PostgresConnection.connect()) {
+            String deleteQuery = "DELETE FROM address WHERE id=" + id;
 
-        String deleteQuery = "DELETE FROM address WHERE id=" + id;
-        try {
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(deleteQuery);
             return true;

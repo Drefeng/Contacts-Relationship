@@ -1,16 +1,26 @@
 package no.experis.academy.Model;
 
 public class Phonenumber {
+    private int id;
     private String home;
     private String mobile;
     private String work;
-    private int id;
+    private int phoneRef;
 
-    public Phonenumber(int id, String home, String mobile, String work) {
+
+    public Phonenumber(int id, String home, String mobile, String work, int phoneRef) {
+        this.id = id;
+        this.phoneRef = phoneRef;
         this.home = home;
         this.mobile = mobile;
         this.work = work;
+    }
+
+    public Phonenumber(int id, String home, String mobile, String work) {
         this.id = id;
+        this.home = home;
+        this.mobile = mobile;
+        this.work = work;
     }
 
     public Phonenumber( String home, String mobile, String work) {
@@ -23,6 +33,22 @@ public class Phonenumber {
     public Phonenumber(String mobile, String work) {
         this.mobile = work;
         this.work = work;
+    }
+
+
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {return id;}
+
+    public int getPhoneRef() {
+        return phoneRef;
+    }
+
+    public void setPhoneRef(int phoneRef) {
+        this.phoneRef = phoneRef;
     }
 
     public Phonenumber(String mobile){
@@ -53,9 +79,8 @@ public class Phonenumber {
         return work;
     }
 
-    public int getId() {return id;}
 
     public String toString(){
-        return getId() + " " + getHome() + " " + getMobile() + " " + getWork();
+        return getId() + " " + getHome() + " " + getMobile() + " " + getWork() + " " + getPhoneRef();
     }
 }

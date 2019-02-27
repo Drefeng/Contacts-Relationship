@@ -14,6 +14,17 @@ public class Address {
         this.workAddress = workAddress;
     }
 
+    public Address(int id, String currentAddress, String workAddress) {
+        this.id = id;
+        this.currentAddress = currentAddress;
+        this.workAddress = workAddress;
+    }
+
+    public Address(String currentAddress, String workAddress) {
+        this.currentAddress = currentAddress;
+        this.workAddress = workAddress;
+    }
+
     public int getId() {
         return id;
     }

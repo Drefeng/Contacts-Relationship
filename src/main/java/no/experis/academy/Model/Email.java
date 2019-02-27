@@ -4,18 +4,26 @@ public class Email {
     private String personal;
     private String work;
     private int id;
+    private int refId;
 
-    public Email(String personal, String work){
-
-        this.personal = personal;
+    public Email(int id, String personal, String work, int refId) {
+        this.id = id;
+        this. personal = personal;
         this.work = work;
+        this.refId = id;
     }
 
-    public Email(String personal, String work, int id){
+    public Email(int id, String personal, String work){
         this.personal = personal;
         this.work = work;
         this.id = id;
     }
+
+    public Email(String personal, String work){
+        this.personal = personal;
+        this.work = work;
+    }
+
 
     public int getId() {
         return id;
@@ -23,6 +31,14 @@ public class Email {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getRefId() {
+        return refId;
+    }
+
+    public void setRefId(int refId) {
+        this.refId = refId;
     }
 
     public String getPersonal() {
@@ -46,6 +62,6 @@ public class Email {
     }
 
     public String toString(){
-        return getPersonal() + " " + getWork();
+        return getPersonal() + " " + getWork() + " " + getRefId();
     }
 }
