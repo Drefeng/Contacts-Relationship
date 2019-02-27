@@ -10,9 +10,17 @@ import java.util.Iterator;
 
 public class Main {
     public static void main(String[] args){
-        new PhoneQuery().addCustom(new Phonenumber("39284938", "234234", "123434"), 1);
 
+        try {
+            new PostgresConnection().getConnection();
+            System.out.println("passed");
+        }catch(Exception e){
+            e.getStackTrace();
+        }
     }
+
+
+
 
 }
 
