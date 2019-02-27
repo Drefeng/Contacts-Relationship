@@ -103,7 +103,7 @@ public class AddressQuery implements CRUD<Address> {
 
 
     public void updateById(int id, Address address) {
-        try ( Connection conn = PostgresConnection.connect();){
+        try ( Connection conn = PostgresConnection.connect()){
             String updateQuery = "UPDATE address SET current=?, work=?,  WHERE id=" + id;
 
             PreparedStatement pstmt = conn.prepareStatement(updateQuery);
