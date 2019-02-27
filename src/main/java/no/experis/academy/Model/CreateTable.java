@@ -111,7 +111,7 @@ public class CreateTable {
         String updateTable = "INSERT INTO relationship"
                 + "(role)"
                 + "VALUES"
-                + "('Father'), ('Mother'), ('Child'), ('Siblings')";
+                + "('Father'), ('Mother'), ('Son'), ('Daughter'), ('Brother'), ('Sister')";
         PreparedStatement update = connect.prepareStatement(updateTable);
 
         boolean autoCommit = connect.getAutoCommit();
