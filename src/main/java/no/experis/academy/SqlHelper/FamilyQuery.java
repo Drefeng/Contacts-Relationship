@@ -104,7 +104,7 @@ public class FamilyQuery implements CRUD<Family> {
             Statement stmt = conn.createStatement();
             stmt.executeUpdate("UPDATE FAMILY SET person_id="
                     + family.getP_id() + ", " + "relative_id=" + family.getRel_id() + ", "+ " relation_id=" + family.getRelation_id());
-
+            conn.commit();
         }catch(SQLException e){
             e.printStackTrace();
         }

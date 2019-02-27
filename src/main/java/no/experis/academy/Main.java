@@ -19,8 +19,9 @@ public class Main {
             e.getStackTrace();
         }*/
 
-        new AddressQuery().add(new Address( 1, "noroffveien 3234", "experisveien 1401" ));
-
+        //new AddressQuery().add(new Address( 1, "noroffveien 3234", "experisveien 1401" ));
+        //new FamilyQuery().add(new Family(1, 2, 1));
+        //new FamilyQuery().update(new Family(1, 2, 2));
 
     }
 
