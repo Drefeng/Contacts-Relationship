@@ -9,18 +9,10 @@ import java.time.Month;
 import java.util.Iterator;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
-        try {
-            new PostgresConnection().getConnection();
-            System.out.println("passed");
-        }catch(Exception e){
-            e.getStackTrace();
-        }
+
     }
-
-
-
 
 }
 

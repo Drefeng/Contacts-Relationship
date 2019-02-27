@@ -21,13 +21,21 @@ public class PostgresConnection {
         return conn;
     }
 
-    public Connection getConnection() throws URISyntaxException, SQLException {
-        URI dbUri = new URI("postgres://cuvjnnwlehuqix:85ba6fd1f3052e1f2fb64d3c2998b49bcdc1212c72433fa4b0e77a44bab2b517@ec2-46-137-170-51.eu-west-1.compute.amazonaws.com:5432/dd9bgbp44cm3ue");
+    public Connection getConnection(){
 
-        String username = dbUri.getUserInfo().split(":")[0];
-        String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
-        return DriverManager.getConnection(dbUrl, username, password);
+        try {
+            URI dbUri = new URI("postgres://cuvjnnwlehuqix:85ba6fd1f3052e1f2fb64d3c2998b49bcdc1212c72433fa4b0e77a44bab2b517@ec2-46-137-170-51.eu-west-1.compute.amazonaws.com:5432/dd9bgbp44cm3ue");
+            String username = dbUri.getUserInfo().split(":")[0];
+            String password = dbUri.getUserInfo().split(":")[1];
+            String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+
+            System.out.println("Connected!");
+            conn = DriverManager.getConnection(dbUrl, username, password);
+        }catch(Exception e) {
+            System.out.println("something went wrong");
+        }
+
+        return conn;
 
     }
 
