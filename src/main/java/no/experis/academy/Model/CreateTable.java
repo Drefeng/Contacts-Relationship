@@ -86,7 +86,7 @@ public class CreateTable {
                     + "(id SERIAL PRIMARY KEY NOT NULL,"
                     + "current VARCHAR(100),"
                     + "work VARCHAR(100),"
-                    + "address_ref INT REFERENCES person (id));";
+                    + "addressRef INT REFERENCES person (id));";
 
 
             stmt.executeUpdate(sql);

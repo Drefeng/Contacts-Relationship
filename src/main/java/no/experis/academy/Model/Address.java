@@ -14,8 +14,8 @@ public class Address {
         this.workAddress = workAddress;
     }
 
-    public Address(int id, String currentAddress, String workAddress) {
-        this.id = id;
+    public Address(int refId, String currentAddress, String workAddress) {
+        this.refId = refId;
         this.currentAddress = currentAddress;
         this.workAddress = workAddress;
     }

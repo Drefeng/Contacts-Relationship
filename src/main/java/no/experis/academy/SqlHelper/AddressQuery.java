@@ -35,6 +35,36 @@ public class AddressQuery implements CRUD<Address> {
                 conn.close();
             }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return address;
+    }
+
+    public Iterable<Address> getAllByRefId() {
+        List<Address> address = null;
+
+        try (Connection conn = PostgresConnection.connect()) {
+            conn.setAutoCommit(false);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM address WHERE addressRef;");
+
+            address = new ArrayList<>();
+
+            int id = 0;
+            int refId = 0;
+            String currentAddress, workAddress;
+
+            while (rs.next()) {
+                id = rs.getInt("id");
+                currentAddress = rs.getString("current");
+                workAddress = rs.getString("work");
+                refId = rs.getInt("address_ref");
+
+                address.add(new Address(id, refId, currentAddress,workAddress ));
+
+                conn.close();
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
