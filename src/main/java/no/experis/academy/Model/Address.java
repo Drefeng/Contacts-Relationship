@@ -20,10 +20,7 @@ public class Address {
         this.workAddress = workAddress;
     }
 
-    public Address(String currentAddress, String workAddress) {
-        this.currentAddress = currentAddress;
-        this.workAddress = workAddress;
-    }
+
 
     public int getId() {
         return id;
