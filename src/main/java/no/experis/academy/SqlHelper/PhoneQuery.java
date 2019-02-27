@@ -102,19 +102,6 @@ public class PhoneQuery implements CRUD<Phonenumber> {
 
     }
 
-   /* public void updatePhone(Phonenumber phone, int id) {
-        Connection conn = PostgresConnection.connect();
-        String updateQuery = "UPDATE phone SET home=?, mobile=?, birthday=? WHERE id=" + id;
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(updateQuery);
-            pstmt.setString(1, phone.getHome());
-            pstmt.setString(2, phone.getMobile());
-            pstmt.setString(3, phone.getWork());
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     public void updatePhoneById(int id, Phonenumber phone) {
         Connection conn = PostgresConnection.connect();
